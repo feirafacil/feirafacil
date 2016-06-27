@@ -1,27 +1,22 @@
 from django.db import models
 
-class Consumer(models.Model):
-    author = models.ForeignKey('auth.User')
-    title = models.CharField(max_length=200)
-    text = models.TextField()
-   
+class User(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+    password = models.CharField(max_length=9)
+    phone = models.CharField(max_length=10)
 
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
+class Consumer(User):
+    address = models.ForeignKey('Address')
 
-    def __str__(self):
-        return self.title
 
-class Merchant(models.Model):
-    author = models.ForeignKey('auth.User')
-    title = models.CharField(max_length=200)
-    text = models.TextField()
+class Merchant(User):
+    zone = models.ForeignKey('Zone')
     
+class Address(models.Model):
+    description = models.CharField(max_length=200)
+    number = models.CharField(max_length=2)
+    cep = models.CharField(max_length=9)
 
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
-
-    def __str__(self):
-        return self.title
+class Zone(models.Model):
+    description = models.CharField(max_length=200)
