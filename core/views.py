@@ -7,4 +7,4 @@ def login(request):
 
 def home(request):
     
-    return render(request, 'core/home.html', {})
+    return render(request, 'core/test.html', {})
