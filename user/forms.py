@@ -5,4 +5,4 @@ class ConsumerForm(forms.ModelForm):
     
     class Meta:
         model = Consumer
-        fiels = ('nome', 'email', 'password', 'phone', 'address')
+        fiels = ('nome', 'email', 'password', 'phone',)

@@ -1,5 +1,6 @@
 from django.shortcuts import render
-
+from .forms import ConsumerForm
+from .forms import AddressForm
 # Create your views here.
 def home(request):
     
@@ -11,7 +12,9 @@ def login(request):
 
 def signin(request):
 
-	return render(request, 'core/signin.html', {})
+    form_consumer = ConsumerForm()
+    form_address = AddressForm()
+    return render(request, 'core/signin.html', {'form_consumer': form_consumer, 'form_address':form_address})
 
 def about(request):
 
