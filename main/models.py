@@ -12,23 +12,24 @@ class Consumer(models.Model):
     email = models.EmailField()
     senha = models.CharField(max_length=30)
     telefone = models.CharField(max_length=10)
-    cidade= models.CharField(max_length=50)
+    cidade = models.CharField(max_length=50)
     logradouro = models.CharField(max_length=200)
     numero = models.CharField(max_length=2)
     cep = models.CharField(max_length=9)
-    def save(self, *args, **kwargs):
+    '''def save(self, *args, **kwargs):
         consumer = super(Consumer, self).save(*args, **kwargs)
-        User.objects.create_user('test', 'test@gmail.com', "testpass")
-        
+        User.objects.create_user('test', 'test@gmail.com', "testpass")'''
 
 class Merchant(MyUser):
     zone = models.ForeignKey('Zone')
-    
-class Address(models.Model):
-    cidade= models.CharField(max_length=50)
-    logradouro = models.CharField(max_length=200)
-    numero = models.CharField(max_length=2)
-    cep = models.CharField(max_length=9)
 
 class Zone(models.Model):
     description = models.CharField(max_length=200)
+
+class ListProduct(models.Model):
+    consumer = models.ForeignKey('Consumer')
+    products = models.ManyToManyField('Product')
+
+class Product(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.TextField()

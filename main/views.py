@@ -21,9 +21,16 @@ def home(request):
     return render(request, 'main/home.html', {})
 
 def signin(request):
-
-    form_consumer = ConsumerForm()
-    return render(request, 'main/signin.html', {'form_consumer': form_consumer})
+    if request.method == "POST":
+        form = ConsumerForm(request.POST)
+        if form.is_valid():
+            consumer = form.save(commit=False)
+            print (consumer.nome)
+            consumer.save()
+            return redirect('main.views.home')
+    else:
+        form_consumer = ConsumerForm()
+        return render(request, 'main/signin.html', {'form_consumer': form_consumer})
 
 def about(request):
 
