@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .forms import ConsumerForm
+from django.shortcuts import redirect
+from .forms import *
 from django.contrib.auth import authenticate, login
 
 def login(request):
@@ -35,3 +36,22 @@ def signin(request):
 def about(request):
 
 	return render(request, 'main/about.html', {})
+
+def consumer(request):
+
+	return render(request, 'main/consumer.html', {})
+
+def merchant(request):
+
+	return render(request, 'main/merchant.html', {})
+
+def list(request):
+    if request.method == "POST":
+        form = ListProductForm(request.POST)
+        if form.is_valid():
+            list_product = form.save(commit=False)
+            list_product.save()
+            return redirect('main.views.home')
+    else:
+        form_consumer = ListProductForm()
+        return render(request, 'main/signin.html', {'form_consumer': form_consumer})

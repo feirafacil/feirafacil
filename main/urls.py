@@ -6,8 +6,8 @@ urlpatterns = [
     url(r'^login$', views.login),
     url(r'^signin$', views.signin),
     url(r'^about$', views.about),
-    url(r'^cosumer$', views.login),
-    url(r'^merchant$', views.signin),
-    url(r'^list$', views.about),
+    url(r'^consumer$', views.consumer),
+    url(r'^merchant$', views.merchant),
+    url(r'^list$', views.list),
 
 ]
