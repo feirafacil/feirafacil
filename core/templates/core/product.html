@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1>Produto</h1>
+    <h2>Registre um novo produto</h2>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default"><h2>Guardar</h2></button>
+    </form>
+{% endblock %}

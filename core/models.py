@@ -16,6 +16,9 @@ class Consumer(models.Model):
         consumer = super(Consumer, self).save(*args, **kwargs)
         User.objects.create_user('test', 'test@gmail.com', "testpass")'''
 
+    def __str__(self):
+        return self.name
+
 class Merchant(models.Model):
     username = models.CharField(max_length=200)
     email = models.EmailField(max_length=200)
@@ -23,8 +26,14 @@ class Merchant(models.Model):
     phone = models.CharField(max_length=10)
     zone = models.ForeignKey('Zone')
 
+    def __str__(self):
+        return self.username
+
 class Zone(models.Model):
     description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.description
 
 class ListProduct(models.Model):
     consumer = models.ForeignKey('Consumer')
@@ -33,6 +42,9 @@ class ListProduct(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name
 
 class MerchantTender(models.Model):
     merchant = models.ForeignKey('Merchant')
