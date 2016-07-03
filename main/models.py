@@ -1,11 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class MyUser(models.Model):
-    nome = models.CharField(max_length=200)
-    email = models.EmailField(max_length=200)
-    senha = models.CharField(max_length=9)
-    telefone = models.CharField(max_length=10)
 
 class Consumer(models.Model):
     nome = models.CharField(max_length=30)
@@ -20,7 +15,11 @@ class Consumer(models.Model):
         consumer = super(Consumer, self).save(*args, **kwargs)
         User.objects.create_user('test', 'test@gmail.com', "testpass")'''
 
-class Merchant(MyUser):
+class Merchant(models.Model):
+    nome = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
+    senha = models.CharField(max_length=9)
+    telefone = models.CharField(max_length=10)
     zone = models.ForeignKey('Zone')
 
 class Zone(models.Model):
@@ -33,3 +32,12 @@ class ListProduct(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField()
+
+class Tender(models.Model):
+    merchant = models.ForeignKey('Merchant')
+    list_product = models.ForeignKey('ListProduct')
+    price = models.FloatField()
+
+class Notification(models.Model):
+    merchant = models.ForeignKey('Merchant')
+    list_product = models.ForeignKey('ListProduct')
