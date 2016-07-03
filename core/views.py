@@ -6,19 +6,22 @@ from .forms import *
 from django.contrib.auth import authenticate, login
 
 def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            # Redirect to a success page.
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                #login(request, user)
+                return render(request, 'core/consumer.html')
+            else:
+                return render(request, 'core/login.html' )
         else:
-            # Return a 'disabled account' error message
-            ...
+            return render(request, 'core/login.html' )
     else:
-        # Return an 'invalid login' error message.
-        ...
+        form = LoginForm()
+        return render(request, 'core/login.html', {'form': form})
+
 def home(request):
     
     return render(request, 'core/home.html', {})
