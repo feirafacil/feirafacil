@@ -23,6 +23,17 @@ def home(request):
     
     return render(request, 'core/home.html', {})
 
+def signin_django(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            return redirect('core.views.home')
+    else:
+        form = UserForm()
+        return render(request, 'core/signin_django.html', {'form': form})
+
 def signin(request):
     if request.method == "POST":
         form = ConsumerForm(request.POST)

@@ -3,6 +3,7 @@ from .models import Consumer
 from .models import Product
 from .models import ListProduct
 from .models import MerchantTender
+from django.contrib.auth.models import User
 
 class ConsumerForm(forms.ModelForm):
     
@@ -27,3 +28,9 @@ class TenderForm(forms.ModelForm):
     class Meta:
         model = MerchantTender
         fields = ('merchant', 'list_product', 'price')
+
+class UserForm(forms.ModelForm):
+    
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'email')

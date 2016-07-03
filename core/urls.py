@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^home$', views.home),
     url(r'^login$', views.login),
     url(r'^signin$', views.signin),
+    url(r'^signin_django$', views.signin_django),
     url(r'^about$', views.about),
     url(r'^consumer$', views.consumer),
     url(r'^merchant$', views.merchant),
