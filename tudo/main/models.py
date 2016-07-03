@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
 
@@ -34,33 +33,7 @@ class Product(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField()
 
-class MerchantTender(models.Model):
+class Tender(models.Model):
     merchant = models.ForeignKey('Merchant')
     list_product = models.ForeignKey('ListProduct')
     price = models.FloatField()
-
-class ConsumerNotification(models.Model):
-    consumer = models.ForeignKey('Consumer')
-    message = models.TextField()
-
-class MerchantNotification(models.Model):
-    merchant = models.ForeignKey('Merchant')
-    message = models.TextField()
-
-def notify_merchant(sender, **kwargs):
-    if kwargs['created']:
-        print ("função de notificação do comerciante")
-        list_product = kwargs['instance']
-        print (list_product.consumer.name)
-        print (list_product.consumer.address)
-
-post_save.connect(notify_merchant, sender=ListProduct)
-
-def notify_consumer(sender, **kwargs):
-    if kwargs['created']:
-        print ("função de notificação do cosumidor")
-        merchant_tender = kwargs['instance']
-        print (merchant_tender.list_product.consumer.name)
-        print (merchant_tender.list_product.consumer.address)
-
-post_save.connect(notify_consumer, sender=MerchantTender)

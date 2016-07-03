@@ -11,46 +11,68 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Address',
+            name='Consumer',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
-                ('cidade', models.CharField(max_length=50)),
-                ('logradouro', models.CharField(max_length=200)),
-                ('numero', models.CharField(max_length=2)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=30)),
+                ('email', models.EmailField(max_length=254)),
+                ('password', models.CharField(max_length=30)),
+                ('phone', models.CharField(max_length=10)),
+                ('city', models.CharField(max_length=50)),
+                ('address', models.CharField(max_length=200)),
+                ('number', models.CharField(max_length=2)),
                 ('cep', models.CharField(max_length=9)),
             ],
         ),
         migrations.CreateModel(
-            name='User',
+            name='ListProduct',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
-                ('nome', models.CharField(max_length=200)),
-                ('email', models.CharField(max_length=200)),
-                ('senha', models.CharField(max_length=9)),
-                ('telefone', models.CharField(max_length=10)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('consumer', models.ForeignKey(to='core.Consumer')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Merchant',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('username', models.CharField(max_length=200)),
+                ('email', models.EmailField(max_length=200)),
+                ('password', models.CharField(max_length=9)),
+                ('phone', models.CharField(max_length=10)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Product',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=30)),
+                ('description', models.TextField()),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Tender',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('price', models.FloatField()),
+                ('list_product', models.ForeignKey(to='core.ListProduct')),
+                ('merchant', models.ForeignKey(to='core.Merchant')),
             ],
         ),
         migrations.CreateModel(
             name='Zone',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('description', models.CharField(max_length=200)),
             ],
         ),
-        migrations.CreateModel(
-            name='Consumer',
-            fields=[
-                ('user_ptr', models.OneToOneField(parent_link=True, serialize=False, primary_key=True, auto_created=True, to='core.User')),
-                ('endereco', models.ForeignKey(to='core.Address')),
-            ],
-            bases=('core.user',),
+        migrations.AddField(
+            model_name='merchant',
+            name='zone',
+            field=models.ForeignKey(to='core.Zone'),
         ),
-        migrations.CreateModel(
-            name='Merchant',
-            fields=[
-                ('user_ptr', models.OneToOneField(parent_link=True, serialize=False, primary_key=True, auto_created=True, to='core.User')),
-                ('zone', models.ForeignKey(to='core.Zone')),
-            ],
-            bases=('core.user',),
+        migrations.AddField(
+            model_name='listproduct',
+            name='products',
+            field=models.ManyToManyField(to='core.Product'),
         ),
     ]
