@@ -13,8 +13,13 @@ class Consumer(models.Model):
     number = models.CharField(max_length=2)
     cep = models.CharField(max_length=9)
     '''def save(self, *args, **kwargs):
+        print(args)
+        print(request.POST['name'])
         consumer = super(Consumer, self).save(*args, **kwargs)
-        User.objects.create_user('test', 'test@gmail.com', "testpass")'''
+        user = User.objects.create_user('am', 'mail', 'ahsswrd')
+        print(args)
+        print(kwargs)'''
+
 
     def __str__(self):
         return self.name

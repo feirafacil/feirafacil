@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.shortcuts import render
+from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from .forms import *
 from django.contrib.auth import authenticate, login
@@ -43,6 +43,7 @@ def signin(request):
         if form.is_valid():
             consumer = form.save(commit=False)
             consumer.save()
+            user = User.objects.create_user(request.POST['name'], request.POST['email'], request.POST['password'])
             return redirect('core.views.home')
     else:
         form_consumer = ConsumerForm()
