@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^home$', views.home),
-    url(r'^login$', views.login),
+    url(r'^login$', views.do_login),
     url(r'^signin$', views.signin),
     url(r'^signin_django$', views.signin_django),
     url(r'^about$', views.about),

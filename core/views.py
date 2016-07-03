@@ -5,14 +5,14 @@ from django.shortcuts import redirect
 from .forms import *
 from django.contrib.auth import authenticate, login
 
-def login(request):
+def do_login(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                #login(request, user)
+                login(request, user)
                 return render(request, 'core/consumer.html')
             else:
                 return render(request, 'core/login.html' )
