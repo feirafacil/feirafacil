@@ -46,8 +46,20 @@ def signin(request):
             user = User.objects.create_user(request.POST['name'], request.POST['email'], request.POST['password'])
             return redirect('core.views.home')
     else:
-        form_consumer = ConsumerForm()
-        return render(request, 'core/signin.html', {'form_consumer': form_consumer})
+        form = ConsumerForm()
+        return render(request, 'core/signin.html', {'form': form})
+
+def merchant_signin(request):
+    if request.method == "POST":
+        form = MerchantForm(request.POST)
+        if form.is_valid():
+            merchant = form.save(commit=False)
+            merchant.save()
+            user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+            return redirect('core.views.home')
+    else:
+        form = MerchantForm()
+        return render(request, 'core/signin.html', {'form': form})
 
 def about(request):
 
@@ -93,3 +105,6 @@ def tender(request):
     else:
         form = ProductForm()
         return render(request, 'core/tender.html', {'form': form})
+
+def notification(request):
+    return render(request, 'core/notification.html', {})

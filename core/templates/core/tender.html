@@ -1,10 +1,11 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <h1>Cadastro</h1>
-    <h2>Faça sua conta e experimente</h2>
+    <h1>Lista de compra</h1>
+    <h2>Monte sua lista</h2>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Guardar</button>
     </form>
+    <a href="{% url 'core.views.product'%}" >Cadastrar novo produto</a>
 {% endblock %}

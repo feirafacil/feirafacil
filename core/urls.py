@@ -9,8 +9,10 @@ urlpatterns = [
     url(r'^about$', views.about),
     url(r'^consumer$', views.consumer),
     url(r'^merchant$', views.merchant),
+    url(r'^merchant_signin$', views.merchant_signin),
     url(r'^list$', views.list),
     url(r'^product$', views.product),
     url(r'^tender$', views.tender),
+    url(r'^notification$', views.notification),
 
 ]
