@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 
 
 class Consumer(models.Model):
-    name = models.CharField(max_length=30)
+    username = models.CharField(max_length=30)
+    user = models.ForeignKey(User)
     email = models.EmailField()
     password = models.CharField(max_length=30)
     phone = models.CharField(max_length=10)
@@ -12,20 +13,13 @@ class Consumer(models.Model):
     address = models.CharField(max_length=200)
     number = models.CharField(max_length=2)
     cep = models.CharField(max_length=9)
-    '''def save(self, *args, **kwargs):
-        print(args)
-        print(request.POST['name'])
-        consumer = super(Consumer, self).save(*args, **kwargs)
-        user = User.objects.create_user('am', 'mail', 'ahsswrd')
-        print(args)
-        print(kwargs)'''
-
 
     def __str__(self):
-        return self.name
+        return self.username
 
 class Merchant(models.Model):
     username = models.CharField(max_length=200)
+    user = models.ForeignKey(User)
     email = models.EmailField(max_length=200)
     password = models.CharField(max_length=9)
     phone = models.CharField(max_length=10)

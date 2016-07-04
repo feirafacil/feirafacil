@@ -107,4 +107,8 @@ def tender(request):
         return render(request, 'core/tender.html', {'form': form})
 
 def notification(request):
+    
+    current_user = request.user
+    print (current_user.id)
+
     return render(request, 'core/notification.html', {})

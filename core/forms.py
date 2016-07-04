@@ -10,7 +10,7 @@ class ConsumerForm(forms.ModelForm):
     
     class Meta:
         model = Consumer
-        fields = ('name', 'email', 'password', 'phone','city', 'address', 'cep', 'number')
+        fields = ('username', 'email', 'password', 'phone','city', 'address', 'cep', 'number')
 
 class ProductForm(forms.ModelForm):
     
