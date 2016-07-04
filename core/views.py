@@ -107,9 +107,9 @@ def tender(request):
         if form.is_valid():
             tender = form.save(commit=False)
             tender.save()
-            return redirect('core.views.list')
+            return redirect('core.views.merchant')
     else:
-        form = ProductForm()
+        form = TenderForm()
         return render(request, 'core/tender.html', {'form': form})
 
 @login_required
