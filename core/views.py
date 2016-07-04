@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from .forms import *
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 def do_login(request):
     if request.method == "POST":
@@ -65,14 +66,17 @@ def about(request):
 
 	return render(request, 'core/about.html', {})
 
+@login_required
 def consumer(request):
 
 	return render(request, 'core/consumer.html', {})
 
+@login_required
 def merchant(request):
 
 	return render(request, 'core/merchant.html', {})
 
+@login_required
 def list(request):
     if request.method == "POST":
         form = ListProductForm(request.POST)
@@ -84,6 +88,7 @@ def list(request):
         form = ListProductForm()
         return render(request, 'core/list.html', {'form': form})
 
+@login_required
 def product(request):
     if request.method == "POST":
         form = ProductForm(request.POST)
@@ -95,6 +100,7 @@ def product(request):
         form = ProductForm()
         return render(request, 'core/product.html', {'form': form})
 
+@login_required
 def tender(request):
     if request.method == "POST":
         form = TenderForm(request.POST)
@@ -106,6 +112,7 @@ def tender(request):
         form = ProductForm()
         return render(request, 'core/tender.html', {'form': form})
 
+@login_required
 def notification(request):
     
     current_user = request.user

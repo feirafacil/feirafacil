@@ -1,5 +1,6 @@
 from django.conf.urls import include, url
 from . import views
+import django.contrib.auth.views
 
 urlpatterns = [
     url(r'^home$', views.home),
@@ -14,5 +15,6 @@ urlpatterns = [
     url(r'^product$', views.product),
     url(r'^tender$', views.tender),
     url(r'^notification$', views.notification),
+    url(r'^logout$', django.contrib.auth.views.logout, name ='logout', kwargs = {'next_page':'/ff/home'}),
 
 ]
