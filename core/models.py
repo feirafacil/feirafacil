@@ -66,10 +66,14 @@ class MerchantNotification(models.Model):
 
 def notify_merchant(sender, **kwargs):
     if kwargs['created']:
-        print ("função de notificação do comerciante")
         list_product = kwargs['instance']
-        print (list_product.consumer.name)
-        print (list_product.consumer.address)
+        merchants = Merchant.objects.all()
+        for merchant in merchants:
+            notification = MerchantNotification()
+            notification.merchant = merchant
+            notification.message = 'Nova lista disponivel na sua zona'
+            notification.save()
+
 
 post_save.connect(notify_merchant, sender=ListProduct)
 
@@ -77,7 +81,9 @@ def notify_consumer(sender, **kwargs):
     if kwargs['created']:
         print ("função de notificação do cosumidor")
         merchant_tender = kwargs['instance']
-        print (merchant_tender.list_product.consumer.name)
-        print (merchant_tender.list_product.consumer.address)
+        notification = ConsumerNotification()
+        notification.consumer = merchant_tender.list_product.consumer
+        notification.message = 'Nova oferta na sua lista'
+        notification.save()
 
 post_save.connect(notify_consumer, sender=MerchantTender)
