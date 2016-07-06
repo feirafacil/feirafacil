@@ -21,11 +21,12 @@ def do_login(request):
             return render(request, 'core/login.html' )
     else:
         form = LoginForm()
-        return render(request, 'core/login.html', {'form': form})
+        islogged = is_logged(request)
+        return render(request, 'core/login.html', {'form': form, 'is_logged': islogged})
 
 def home(request):
-    
-    return render(request, 'core/home.html', {})
+    islogged = is_logged(request)
+    return render(request, 'core/home.html', {'is_logged': islogged})
 
 def signin_django(request):
     if request.method == "POST":
@@ -36,45 +37,47 @@ def signin_django(request):
             return redirect('core.views.home')
     else:
         form = UserForm()
-        return render(request, 'core/signin_django.html', {'form': form})
+        return render(request, 'core/signin_django.html', {'form': form, 'is_logged': True})
 
 def signin(request):
     if request.method == "POST":
         form = ConsumerForm(request.POST)
         if form.is_valid():
             consumer = form.save(commit=False)
+            user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+            consumer.user = user
             consumer.save()
-            user = User.objects.create_user(request.POST['name'], request.POST['email'], request.POST['password'])
             return redirect('core.views.home')
     else:
         form = ConsumerForm()
-        return render(request, 'core/signin.html', {'form': form})
+        return render(request, 'core/signin.html', {'form': form, 'is_logged': True})
 
 def merchant_signin(request):
     if request.method == "POST":
         form = MerchantForm(request.POST)
         if form.is_valid():
             merchant = form.save(commit=False)
-            merchant.save()
             user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+            merchant.user = user
+            merchant.save()
             return redirect('core.views.home')
     else:
         form = MerchantForm()
-        return render(request, 'core/signin.html', {'form': form})
+        return render(request, 'core/signin.html', {'form': form, 'is_logged': True})
 
 def about(request):
 
-	return render(request, 'core/about.html', {})
+	return render(request, 'core/about.html', {'is_logged': True})
 
 @login_required
 def consumer(request):
 
-	return render(request, 'core/consumer.html', {})
+	return render(request, 'core/consumer.html', {'is_logged': True})
 
 @login_required
 def merchant(request):
 
-	return render(request, 'core/merchant.html', {})
+	return render(request, 'core/merchant.html', {'is_logged': True})
 
 @login_required
 def list(request):
@@ -86,7 +89,7 @@ def list(request):
             return redirect('core.views.consumer')
     else:
         form = ListProductForm()
-        return render(request, 'core/list.html', {'form': form})
+        return render(request, 'core/list.html', {'form': form, 'is_logged': True})
 
 @login_required
 def product(request):
@@ -98,7 +101,7 @@ def product(request):
             return redirect('core.views.list')
     else:
         form = ProductForm()
-        return render(request, 'core/product.html', {'form': form})
+        return render(request, 'core/product.html', {'form': form, 'is_logged': True})
 
 @login_required
 def tender(request):
@@ -110,12 +113,15 @@ def tender(request):
             return redirect('core.views.merchant')
     else:
         form = TenderForm()
-        return render(request, 'core/tender.html', {'form': form})
+        return render(request, 'core/tender.html', {'form': form, 'is_logged': True})
 
 @login_required
 def notification(request):
-    
-    current_user = request.user
-    print (current_user.id)
-
     return render(request, 'core/notification.html', {})
+
+def is_logged(request):
+    current_user = request.user
+    if(current_user.id == None):
+        return True
+    else:
+        return False

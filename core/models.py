@@ -73,7 +73,6 @@ post_save.connect(notify_merchant, sender=ListProduct)
 
 def notify_consumer(sender, **kwargs):
     if kwargs['created']:
-        print ("função de notificação do cosumidor")
         merchant_tender = kwargs['instance']
         notification = ConsumerNotification()
         notification.consumer = merchant_tender.list_product.consumer
