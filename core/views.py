@@ -1,10 +1,11 @@
 from django.shortcuts import render
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect
 from .forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+
 
 def do_login(request):
     if request.method == "POST":
@@ -44,8 +45,10 @@ def signin(request):
         form = ConsumerForm(request.POST)
         if form.is_valid():
             consumer = form.save(commit=False)
-            user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
-            consumer.user = user
+            consumer_user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+            consumer.user = consumer_user
+            g = Group.objects.get(name='Consumer')
+            g.user_set.add(consumer_user)
             consumer.save()
             return redirect('core.views.home')
     else:
@@ -59,6 +62,7 @@ def merchant_signin(request):
             merchant = form.save(commit=False)
             user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
             merchant.user = user
+            merchant.groups.add(2)
             merchant.save()
             return redirect('core.views.home')
     else:
