@@ -2,5 +2,11 @@
 
 {% block content %}
     <h1>Notificações</h1>
-    
+    {% for not in notification%}
+    	<div>
+    		<h3>Notificação: {{ not.id }}</h3>
+    		<p>{{ not.message }}</p>
+    	</div>
+    {%endfor%}
+    	
 {% endblock %}

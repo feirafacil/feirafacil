@@ -22,7 +22,7 @@ class ListProductForm(forms.ModelForm):
     
     class Meta:
         model = ListProduct
-        fields = ('consumer', 'products')
+        fields = ('products',)
 
 class TenderForm(forms.ModelForm):
     

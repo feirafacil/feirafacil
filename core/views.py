@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect
 from .forms import *
+from .models import MerchantNotification, ConsumerNotification, Merchant, Consumer
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
@@ -16,9 +17,9 @@ def do_login(request):
             if user.is_active:
                 login(request, user)
                 if(user.groups.all()[0].name == 'Consumer'):
-                    return render(request, 'core/consumer.html')
+                    return redirect('core.views.consumer')
                 else:
-                    return render(request, 'core/merchant.html')
+                    return redirect('core.views.merchant')
             else:
                 return render(request, 'core/login.html' )
         else:
@@ -92,7 +93,7 @@ def list(request):
         form = ListProductForm(request.POST)
         if form.is_valid():
             list_product = form.save(commit=False)
-            list_product.save()
+            
             return redirect('core.views.consumer')
     else:
         form = ListProductForm()
@@ -124,7 +125,17 @@ def tender(request):
 
 @login_required
 def notification(request):
-    return render(request, 'core/notification.html', {})
+    user = request.user
+    if(user.groups.all()[0].name == 'Consumer'):
+        consumer = Consumer.objects.get(user=request.user)
+        notification = ConsumerNotification.objects.get(consumer=consumer)
+        return render(request, 'core/notification.html', {'notification': notification})
+    else:
+        merchant = Merchant.objects.get(user=request.user)
+        notification = MerchantNotification.objects.filter(merchant=merchant)
+        return render(request, 'core/notification.html', {'notification': notification})
+
+    
 
 def is_logged(request):
     current_user = request.user

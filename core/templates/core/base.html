@@ -27,13 +27,18 @@
                     </li>
                     <li>
                         {%if is_logged %}
-                            <a href="{% url 'core.views.do_login'%}">Login</a>
-                        {%else %}
                             <a href="{% url 'django.contrib.auth.views.logout'%}">Logout</a>
+                        {%else %}
+                            <a href="{% url 'core.views.do_login'%}">Login</a>
                         {% endif %}
                     </li>
                     <li>
-                        <a href="{% url 'core.views.signin'%}">Cadastre-se</a>
+                        {%if is_logged %}
+                            <a href="{% url 'core.views.notification'%}">Notificações</a>
+                        {%else %}
+                            <a href="{% url 'core.views.signin'%}">Cadastre-se</a>
+                        {% endif %}
+                        
                     </li>
                     <li>
                         <a href="{% url 'core.views.about'%}">Sobre Nós</a>
