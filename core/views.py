@@ -21,7 +21,7 @@ def do_login(request):
                 else:
                     return redirect('core.views.merchant')
             else:
-                return render(request, 'core/login.html' )
+                return redirect('core.views.do_login')
         else:
             return render(request, 'core/login.html' )
     else:
@@ -94,6 +94,11 @@ def list(request):
         if form.is_valid():
             list_product = form.save(commit=False)
             
+            '''implementar logica para pegar consumidor logado '''
+            consumers = Consumer.objects.all()
+            
+            list_product.consumer = consumers[0]
+            list_product.save()
             return redirect('core.views.consumer')
     else:
         form = ListProductForm()
