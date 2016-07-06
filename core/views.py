@@ -15,7 +15,10 @@ def do_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return render(request, 'core/consumer.html')
+                if(user.groups.all()[0].name == 'Consumer'):
+                    return render(request, 'core/consumer.html')
+                else:
+                    return render(request, 'core/merchant.html')
             else:
                 return render(request, 'core/login.html' )
         else:
