@@ -38,6 +38,9 @@ class ListProduct(models.Model):
     consumer = models.ForeignKey('Consumer')
     products = models.ManyToManyField('Product')
 
+    def __str__(self):
+        return 'Lista do ' + self.consumer.username
+
 class Product(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField()
@@ -50,13 +53,23 @@ class MerchantTender(models.Model):
     list_product = models.ForeignKey('ListProduct')
     price = models.FloatField()
 
+    def __str__(self):
+        return 'Oferta do ' + self.merchant.username
+
 class ConsumerNotification(models.Model):
     consumer = models.ForeignKey('Consumer')
     message = models.TextField()
 
+    def __str__(self):
+        return 'Notificação ao ' + self.consumer.username
+
 class MerchantNotification(models.Model):
     merchant = models.ForeignKey('Merchant')
     message = models.TextField()
+
+
+    def __str__(self):
+        return 'Notificação ao ' + self.merchant.username
 
 def notify_merchant(sender, **kwargs):
     if kwargs['created']:

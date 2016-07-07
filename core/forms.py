@@ -28,7 +28,7 @@ class TenderForm(forms.ModelForm):
     
     class Meta:
         model = MerchantTender
-        fields = ('merchant', 'list_product', 'price')
+        fields = ('list_product', 'price')
 
 class UserForm(forms.ModelForm):
     

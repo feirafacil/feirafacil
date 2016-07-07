@@ -94,10 +94,10 @@ def list(request):
         if form.is_valid():
             list_product = form.save(commit=False)
             
-            '''implementar logica para pegar consumidor logado '''
-            consumers = Consumer.objects.all()
-            
-            list_product.consumer = consumers[0]
+            current_user = request.user
+            consumer = Consumer.objects.get(user= current_user)
+            list_product.consumer = consumer
+
             list_product.save()
             return redirect('core.views.consumer')
     else:
@@ -122,6 +122,11 @@ def tender(request):
         form = TenderForm(request.POST)
         if form.is_valid():
             tender = form.save(commit=False)
+
+            current_user = request.user
+            merchant = Merchant.objects.get(user= current_user)
+            tender.merchant = merchant
+
             tender.save()
             return redirect('core.views.merchant')
     else:
@@ -133,7 +138,7 @@ def notification(request):
     user = request.user
     if(user.groups.all()[0].name == 'Consumer'):
         consumer = Consumer.objects.get(user=request.user)
-        notification = ConsumerNotification.objects.get(consumer=consumer)
+        notification = ConsumerNotification.objects.filter(consumer=consumer)
         return render(request, 'core/notification.html', {'notification': notification})
     else:
         merchant = Merchant.objects.get(user=request.user)
